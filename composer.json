@@ -1,0 +1,26 @@
+{
+    "name": "lagdo/xajax-codeigniter",
+    "type": "library",
+    "description": "Modal dialog for Xajax with Twitter Bootstrap.",
+    "authors": [
+        {"name": "Thierry Feuzeu"}
+    ],
+    "homepage": "https://github.com/lagdo/xajax-codeigniter",
+    "license": "BSD-2-Clause",
+    "keywords": ["Xajax", "Ajax", "PHP", "Framework", "CodeIgniter"],
+    "support": {
+        "issues": "https://github.com/lagdo/xajax-codeigniter/issues",
+        "source": "https://github.com/lagdo/xajax-codeigniter"
+    },
+    "require": {
+        "lagdo/xajax-core": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Xajax\\CI\\": "src/"
+        },
+        "files": [
+            "src/start.php"
+        ]
+    }
+}
