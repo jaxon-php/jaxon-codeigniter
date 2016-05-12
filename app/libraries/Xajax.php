@@ -193,7 +193,6 @@ class Xajax
 		}
 		// Placer les données dans le controleur
 		$controller->ci_xajax = $this;
-		$controller->xajax = $this->xajax;
 		$controller->response = $this->response;
 		if(($this->initCallback))
 		{

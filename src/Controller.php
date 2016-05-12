@@ -9,7 +9,6 @@ class Controller
 	// Application data
 	// These data will be set by the CI Xajax library when registering the controller
     public $ci_xajax = null; // CI Xajax library
-    public $xajax = null; // Xajax instance
 	public $response = null;
 
 	/**
