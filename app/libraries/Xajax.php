@@ -44,12 +44,12 @@ class Xajax
 		/**
 		 * Todo: change to CodeIgniter setup
 		 */
-        // Xajax application config
-        /*$requestRoute = config('xajax.app.route', 'xajax');
-        $controllerDir = config('xajax.app.controllers', app_path() . '/Ajax/Controllers');
-        $namespace = config('xajax.app.namespace', '\\Xajax\\App');
+        // Xajax application settings
+        $appConfig = $this->ci->config('app', 'xajax');
+        $controllerDir = (array_key_exists('dir', $appConfig) ? $appConfig['dir'] : APPPATH . 'xajax');
+        $namespace = (array_key_exists('namespace', $appConfig) ? $appConfig['namespace'] : '\\Xajax\\App');
 
-        $excluded = config('xajax.app.excluded', array());
+        $excluded = (array_key_exists('excluded', $appConfig) ? $appConfig['excluded'] : array());
         // The public methods of the Controller base class must not be exported to javascript
         $controllerClass = new \ReflectionClass('\\Xajax\\CI\\Controller');
         foreach ($controllerClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $xMethod)
@@ -60,20 +60,21 @@ class Xajax
         $this->xajax->useComposerAutoLoader();
         // Xajax library default options
         $this->xajax->setOptions(array(
-            'js.app.export' => !config('app.debug', false),
-            'js.app.minify' => !config('app.debug', false),
-            'js.app.lib' => asset('/xajax/js'),
-            'js.app.dir' => public_path('/xajax/js'),
+            'js.app.export' => !$this->ci->config('debug'),
+            'js.app.minify' => !$this->ci->config('debug'),
+            'js.app.uri' => $this->ci->config('base_url') . 'xajax/js',
+            'js.app.dir' => FCPATH . 'xajax/js',
         ));
-        // Xajax library user options
-        \Xajax\Config\Php::read(base_path('/config/xajax.php'), 'lib');
+        // Xajax library settings
+        $libConfig = $this->ci->config('lib', 'xajax');
+        \Xajax\Config\Config::setOptions($libConfig);
         // The request URI can be set with a CI route
         if(!$this->xajax->hasOption('core.request.uri'))
         {
-            $this->xajax->setOption('core.request.uri', url($requestRoute));
+            $this->xajax->setOption('core.request.uri', 'xajax');
         }
         // Register the default Xajax class directory
-        $this->xajax->addClassDir($controllerDir, $namespace, $excluded);*/
+        $this->xajax->addClassDir($controllerDir, $namespace, $excluded);
 	}
 
 	/**
