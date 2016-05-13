@@ -12,6 +12,8 @@ class Xajax_Controller extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		// Load Xajax config file
+		$this->config->load('xajax', true);
 		// Setup the Xajax library
 		$this->xajax = $this->load->library('xajax');
 		$this->xajax->setup();
