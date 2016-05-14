@@ -117,9 +117,9 @@ class Xajax
 	 *
 	 * @return string  the javascript code
 	 */
-	public function javascript()
+	public function script()
 	{
-		return $this->xajax->getJavascript();
+		return $this->xajax->getScript();
 	}
 
 	/**
@@ -129,7 +129,7 @@ class Xajax
 	 */
 	public function js()
 	{
-		return $this->xajax->getJsInclude();
+		return $this->xajax->getJs();
 	}
 
 	/**
@@ -139,7 +139,7 @@ class Xajax
 	 */
 	public function css()
 	{
-		return $this->xajax->getCssInclude();
+		return $this->xajax->getCss();
 	}
 
 	/**
