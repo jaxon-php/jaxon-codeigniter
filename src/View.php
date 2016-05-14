@@ -8,14 +8,15 @@ use App;
 class View
 {
 	protected static $data;
-	protected $controller = null;
 	protected $ci;
 
-	public function __construct($controller)
+	public function __construct()
 	{
-		self::$data = array();
-		$this->controller = $controller;
-		$this->ci = &get_instance();
+		if(!is_array(self::$data))
+		{
+			self::$data = array();
+		}
+		$this->ci = get_instance();
 	}
 
 	/**
