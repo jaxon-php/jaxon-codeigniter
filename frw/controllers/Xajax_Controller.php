@@ -12,14 +12,4 @@ class Xajax_Controller extends CI_Controller
 		$this->load->library('xajax');
 		$this->xajax->setup();
 	}
-
-	// Default method of the CI controllers
-	public function index()
-	{
-		// Process the Xajax request
-		if($this->xajax->canProcessRequest())
-		{
-			$this->xajax->processRequest();
-		}
-	}
 }
