@@ -1,9 +1,6 @@
 <?php
 
-namespace Xajax\Laravel;
-
-use Illuminate\Pagination\LengthAwarePaginator as Paginator;
-use App;
+namespace Xajax\CI;
 
 class View
 {
