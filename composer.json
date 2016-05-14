@@ -1,7 +1,7 @@
 {
     "name": "lagdo/xajax-codeigniter",
     "type": "library",
-    "description": "Modal dialog for Xajax with Twitter Bootstrap.",
+    "description": "Xajax library integration for the CodeIgniter framework",
     "authors": [
         {"name": "Thierry Feuzeu"}
     ],
