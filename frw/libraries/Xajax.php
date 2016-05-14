@@ -113,17 +113,17 @@ class Xajax
 	}
 
 	/**
-	 * Get the javascript code generated for all registered classes.
+	 * Get the javascript code to be sent to the browser.
 	 *
 	 * @return string  the javascript code
 	 */
-	public function script()
+	public function script($bIncludeJs = false, $bIncludeCss = false)
 	{
-		return $this->xajax->getScript();
+		return $this->xajax->getScript($bIncludeJs, $bIncludeCss);
 	}
 
 	/**
-	 * Get the javascript code generated for all registered classes.
+	 * Get the HTML tags to include Xajax javascript files into the page.
 	 *
 	 * @return string  the javascript code
 	 */
@@ -133,7 +133,7 @@ class Xajax
 	}
 
 	/**
-	 * Get the javascript code generated for all registered classes.
+	 * Get the HTML tags to include Xajax CSS code and files into the page.
 	 *
 	 * @return string  the javascript code
 	 */
