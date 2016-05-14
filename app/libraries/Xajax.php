@@ -28,7 +28,7 @@ class Xajax
 	 */
 	public function __construct()
 	{
-		$this->ci = &get_instance();
+		$this->ci = get_instance();
 		$this->xajax = Xajax::getInstance();
 		$this->response = new Response();
 		$this->validator = XajaxContainer::getInstance()->getValidator();
