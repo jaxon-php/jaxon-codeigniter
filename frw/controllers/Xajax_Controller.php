@@ -1,21 +1,15 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require (APPPATH . '../vendor/autoload.php');
-
-use Xajax\Xajax;
-
 class Xajax_Controller extends CI_Controller
 {
-	protected $xajax = null;
+	public $xajax = null;
 
 	public function __construct()
 	{
 		parent::__construct();
-		// Load Xajax config file
-		$this->config->load('xajax', true);
 		// Setup the Xajax library
-		$this->xajax = $this->load->library('xajax');
+		$this->load->library('xajax');
 		$this->xajax->setup();
 	}
 

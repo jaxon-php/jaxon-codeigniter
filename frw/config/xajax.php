@@ -10,9 +10,11 @@ $config['lib'] = array(
 	'core' => array(
 		'language' => 'en',
 		'encoding' => 'UTF-8',
+		'request' => array(
+			'uri' => 'xajax/process',
+		),
 		'prefix' => array(
-			'class' => 'Xajax',
-			'function' => 'xajax_',
+			'class' => '',
 		),
 		'debug' => array(
 			'on' => false,

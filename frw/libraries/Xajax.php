@@ -1,12 +1,6 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require (APPPATH . '../vendor/autoload.php');
-
-use Xajax\Xajax;
-use Xajax\Response\Response;
-use Xajax\Utils\Container as XajaxContainer;
-
 class Xajax
 {
 	protected $xajax = null;
@@ -29,9 +23,9 @@ class Xajax
 	public function __construct()
 	{
 		$this->ci = get_instance();
-		$this->xajax = Xajax::getInstance();
-		$this->response = new Response();
-		$this->validator = XajaxContainer::getInstance()->getValidator();
+		$this->xajax = \Xajax\Xajax::getInstance();
+		$this->response = new \Xajax\Response\Response();
+		$this->validator = \Xajax\Utils\Container::getInstance()->getValidator();
 	}
 
 	/**
@@ -41,11 +35,10 @@ class Xajax
 	 */
 	public function setup()
 	{
-		/**
-		 * Todo: change to CodeIgniter setup
-		 */
+		// Load Xajax config settings
+		$this->ci->config->load('xajax', true);
         // Xajax application settings
-        $appConfig = $this->ci->config('app', 'xajax');
+        $appConfig = $this->ci->config->item('app', 'xajax');
         $controllerDir = (array_key_exists('dir', $appConfig) ? $appConfig['dir'] : APPPATH . 'xajax');
         $namespace = (array_key_exists('namespace', $appConfig) ? $appConfig['namespace'] : '\\Xajax\\App');
 
@@ -60,16 +53,16 @@ class Xajax
         $this->xajax->useComposerAutoLoader();
         // Xajax library default options
         $this->xajax->setOptions(array(
-            'js.app.export' => !$this->ci->config('debug'),
-            'js.app.minify' => !$this->ci->config('debug'),
-            'js.app.uri' => $this->ci->config('base_url') . 'xajax/js',
+            'js.app.export' => !$this->ci->config->item('debug'),
+            'js.app.minify' => !$this->ci->config->item('debug'),
+            'js.app.uri' => $this->ci->config->item('base_url') . 'xajax/js',
             'js.app.dir' => FCPATH . 'xajax/js',
         ));
         // Xajax library settings
-        $libConfig = $this->ci->config('lib', 'xajax');
+        $libConfig = $this->ci->config->item('lib', 'xajax');
         \Xajax\Config\Config::setOptions($libConfig);
-        // The request URI can be set with a CI route
-        if(!$this->xajax->hasOption('core.request.uri'))
+        // Set the request URI
+        if(!$this->xajax->getOption('core.request.uri'))
         {
             $this->xajax->setOption('core.request.uri', 'xajax');
         }
