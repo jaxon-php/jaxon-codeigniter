@@ -1,7 +1,6 @@
 <?php
 
 $config['app'] = array(
-    // 'route' => '',
     // 'dir' => '',
     // 'namespace' => '',
     // 'excluded' => array(),
