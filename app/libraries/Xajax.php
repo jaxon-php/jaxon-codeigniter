@@ -25,7 +25,7 @@ class Xajax
     {
         $this->ci = get_instance();
         $this->xajax = \Xajax\Xajax::getInstance();
-        $this->response = new \Xajax\Response\Response();
+        $this->response = new \Xajax\CI\Response($this->ci->output);
         $this->validator = \Xajax\Utils\Container::getInstance()->getValidator();
         $this->view = new \Xajax\CI\View();
     }
@@ -52,7 +52,7 @@ class Xajax
             $excluded[] = $xMethod->getShortName();
         }
         // Use the Composer autoloader
-        $this->xajax->useComposerAutoLoader();
+        $this->xajax->useComposerAutoloader();
         // Xajax library default options
         $this->xajax->setOptions(array(
             'js.app.export' => !$this->ci->config->item('debug'),
@@ -281,8 +281,8 @@ class Xajax
     public function processRequest()
     {
         // Process Xajax Request
-        $this->xajax->register(XAJAX_PROCESSING_EVENT, XAJAX_PROCESSING_EVENT_BEFORE, array($this, 'preProcess'));
-        $this->xajax->register(XAJAX_PROCESSING_EVENT, XAJAX_PROCESSING_EVENT_AFTER, array($this, 'postProcess'));
+        $this->xajax->register(\Xajax\Xajax::PROCESSING_EVENT, \Xajax\Xajax::PROCESSING_EVENT_BEFORE, array($this, 'preProcess'));
+        $this->xajax->register(\Xajax\Xajax::PROCESSING_EVENT, \Xajax\Xajax::PROCESSING_EVENT_AFTER, array($this, 'postProcess'));
         if($this->xajax->canProcessRequest())
         {
             // Traiter la requete
