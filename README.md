@@ -1,5 +1,5 @@
-Xajax for CodeIgniter
-=================================
+Xajax Library for CodeIgniter
+=============================
 
 This package integrates the Xajax library into the CodeIgniter 3 framework.
 
