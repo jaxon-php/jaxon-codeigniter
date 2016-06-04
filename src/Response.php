@@ -1,8 +1,8 @@
 <?php
 
-namespace Xajax\CI;
+namespace Jaxon\CI;
 
-class Response extends \Xajax\Response\Response
+class Response extends \Jaxon\Response\Response
 {
     /**
      * The CodeIgniter Output class instance
@@ -23,7 +23,7 @@ class Response extends \Xajax\Response\Response
     }
 
     /**
-     * Wrap the Xajax response in a CodeIgniter HTTP response.
+     * Wrap the Jaxon response in a CodeIgniter HTTP response.
      *
      * @param  string  $code
      *

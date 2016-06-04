@@ -1,14 +1,14 @@
 <?php
 
-namespace Xajax\CI;
+namespace Jaxon\CI;
 
 class Controller
 {
-    use \Xajax\Request\FactoryTrait;
+    use \Jaxon\Request\FactoryTrait;
 
     // Application data
-    // These data will be set by the CI Xajax library when registering the controller
-    public $ci_xajax = null; // CI Xajax library
+    // These data will be set by the CI Jaxon library when registering the controller
+    public $ci_jaxon = null; // CI Jaxon library
     public $response = null;
 
     /**
@@ -28,24 +28,24 @@ class Controller
     {}
 
     /**
-     * Find an Xajax controller by name
+     * Find an Jaxon controller by name
      *
      * @param string $method the name of the method
      * 
-     * @return object the Xajax controller, or null
+     * @return object the Jaxon controller, or null
      */
     public function controller($name)
     {
         // If the class name starts with a dot, then find the class in the same class path as the caller
         if(substr($name, 0, 1) == '.')
         {
-            $name = $this->getXajaxClassPath() . $name;
+            $name = $this->getJaxonClassPath() . $name;
         }
         // The controller namespace is prepended to the class name
-        else if(($namespace = $this->getXajaxNamespace()))
+        else if(($namespace = $this->getJaxonNamespace()))
         {
             $name = str_replace(array('\\'), array('.'), trim($namespace, '\\')) . '.' . $name;
         }
-        return (($this->ci_xajax) ? $this->ci_xajax->controller($name) : null);
+        return (($this->ci_jaxon) ? $this->ci_jaxon->controller($name) : null);
     }
 }

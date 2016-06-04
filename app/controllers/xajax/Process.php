@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require(__DIR__ . '/../Xajax_Controller.php');
+require(__DIR__ . '/../Jaxon_Controller.php');
 
-class Process extends Xajax_Controller
+class Process extends Jaxon_Controller
 {
     public function __construct()
     {
@@ -12,10 +12,10 @@ class Process extends Xajax_Controller
 
     public function index()
     {
-        // Process the Xajax request
-        if($this->xajax->canProcessRequest())
+        // Process the Jaxon request
+        if($this->jaxon->canProcessRequest())
         {
-            $this->xajax->processRequest();
+            $this->jaxon->processRequest();
         }
     }
 }

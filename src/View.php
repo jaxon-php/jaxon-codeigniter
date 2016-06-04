@@ -1,6 +1,6 @@
 <?php
 
-namespace Xajax\CI;
+namespace Jaxon\CI;
 
 class View
 {

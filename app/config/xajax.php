@@ -10,7 +10,7 @@ $config['lib'] = array(
         'language' => 'en',
         'encoding' => 'UTF-8',
         'request' => array(
-            'uri' => 'xajax/process',
+            'uri' => 'jaxon/process',
         ),
         'prefix' => array(
             'class' => '',

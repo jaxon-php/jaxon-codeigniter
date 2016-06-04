@@ -1,9 +1,9 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Xajax
+class Jaxon
 {
-    protected $xajax = null;
+    protected $jaxon = null;
     protected $response = null;
     protected $validator = null;
     protected $view = null;
@@ -17,75 +17,75 @@ class Xajax
     private $method = null;
 
     /**
-     * Create a new Xajax instance.
+     * Create a new Jaxon instance.
      *
      * @return void
      */
     public function __construct()
     {
         $this->ci = get_instance();
-        $this->xajax = \Xajax\Xajax::getInstance();
-        $this->response = new \Xajax\CI\Response($this->ci->output);
-        $this->validator = \Xajax\Utils\Container::getInstance()->getValidator();
-        $this->view = new \Xajax\CI\View();
+        $this->jaxon = \Jaxon\Jaxon::getInstance();
+        $this->response = new \Jaxon\CI\Response($this->ci->output);
+        $this->validator = \Jaxon\Utils\Container::getInstance()->getValidator();
+        $this->view = new \Jaxon\CI\View();
     }
 
     /**
-     * Initialise the Xajax library.
+     * Initialise the Jaxon library.
      *
      * @return void
      */
     public function setup()
     {
-        // Load Xajax config settings
-        $this->ci->config->load('xajax', true);
-        // Xajax application settings
-        $appConfig = $this->ci->config->item('app', 'xajax');
-        $controllerDir = (array_key_exists('dir', $appConfig) ? $appConfig['dir'] : APPPATH . 'xajax');
-        $namespace = (array_key_exists('namespace', $appConfig) ? $appConfig['namespace'] : '\\Xajax\\App');
+        // Load Jaxon config settings
+        $this->ci->config->load('jaxon', true);
+        // Jaxon application settings
+        $appConfig = $this->ci->config->item('app', 'jaxon');
+        $controllerDir = (array_key_exists('dir', $appConfig) ? $appConfig['dir'] : APPPATH . 'jaxon');
+        $namespace = (array_key_exists('namespace', $appConfig) ? $appConfig['namespace'] : '\\Jaxon\\App');
 
         $excluded = (array_key_exists('excluded', $appConfig) ? $appConfig['excluded'] : array());
         // The public methods of the Controller base class must not be exported to javascript
-        $controllerClass = new \ReflectionClass('\\Xajax\\CI\\Controller');
+        $controllerClass = new \ReflectionClass('\\Jaxon\\CI\\Controller');
         foreach ($controllerClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $xMethod)
         {
             $excluded[] = $xMethod->getShortName();
         }
         // Use the Composer autoloader
-        $this->xajax->useComposerAutoloader();
-        // Xajax library default options
-        $this->xajax->setOptions(array(
+        $this->jaxon->useComposerAutoloader();
+        // Jaxon library default options
+        $this->jaxon->setOptions(array(
             'js.app.export' => !$this->ci->config->item('debug'),
             'js.app.minify' => !$this->ci->config->item('debug'),
-            'js.app.uri' => $this->ci->config->item('base_url') . 'xajax/js',
-            'js.app.dir' => FCPATH . 'xajax/js',
+            'js.app.uri' => $this->ci->config->item('base_url') . 'jaxon/js',
+            'js.app.dir' => FCPATH . 'jaxon/js',
         ));
-        // Xajax library settings
-        $libConfig = $this->ci->config->item('lib', 'xajax');
-        \Xajax\Config\Config::setOptions($libConfig);
+        // Jaxon library settings
+        $libConfig = $this->ci->config->item('lib', 'jaxon');
+        \Jaxon\Config\Config::setOptions($libConfig);
         // Set the request URI
-        if(!$this->xajax->getOption('core.request.uri'))
+        if(!$this->jaxon->getOption('core.request.uri'))
         {
-            $this->xajax->setOption('core.request.uri', 'xajax');
+            $this->jaxon->setOption('core.request.uri', 'jaxon');
         }
-        // Register the default Xajax class directory
-        $this->xajax->addClassDir($controllerDir, $namespace, $excluded);
+        // Register the default Jaxon class directory
+        $this->jaxon->addClassDir($controllerDir, $namespace, $excluded);
     }
 
     /**
-     * Check if the current request is an Xajax request.
+     * Check if the current request is an Jaxon request.
      *
-     * @return boolean  True if the request is Xajax, false otherwise.
+     * @return boolean  True if the request is Jaxon, false otherwise.
      */
     public function canProcessRequest()
     {
-        return $this->xajax->canProcessRequest();
+        return $this->jaxon->canProcessRequest();
     }
 
     /**
-     * Get the Xajax response.
+     * Get the Jaxon response.
      *
-     * @return object  the Xajax response
+     * @return object  the Jaxon response
      */
     public function response()
     {
@@ -93,23 +93,23 @@ class Xajax
     }
 
     /**
-     * Register the Xajax classes.
+     * Register the Jaxon classes.
      *
      * @return void
      */
     public function register()
     {
-        $this->xajax->registerClasses();
+        $this->jaxon->registerClasses();
     }
 
     /**
-     * Register a specified Xajax class.
+     * Register a specified Jaxon class.
      *
      * @return void
      */
     public function registerClass($sClassName)
     {
-        $this->xajax->registerClass($sClassName);
+        $this->jaxon->registerClass($sClassName);
     }
 
     /**
@@ -119,27 +119,27 @@ class Xajax
      */
     public function script($bIncludeJs = false, $bIncludeCss = false)
     {
-        return $this->xajax->getScript($bIncludeJs, $bIncludeCss);
+        return $this->jaxon->getScript($bIncludeJs, $bIncludeCss);
     }
 
     /**
-     * Get the HTML tags to include Xajax javascript files into the page.
+     * Get the HTML tags to include Jaxon javascript files into the page.
      *
      * @return string  the javascript code
      */
     public function js()
     {
-        return $this->xajax->getJs();
+        return $this->jaxon->getJs();
     }
 
     /**
-     * Get the HTML tags to include Xajax CSS code and files into the page.
+     * Get the HTML tags to include Jaxon CSS code and files into the page.
      *
      * @return string  the javascript code
      */
     public function css()
     {
-        return $this->xajax->getCss();
+        return $this->jaxon->getCss();
     }
 
     /**
@@ -188,7 +188,7 @@ class Xajax
             return;
         }
         // Placer les données dans le controleur
-        $controller->ci_xajax = $this;
+        $controller->ci_jaxon = $this;
         $controller->response = $this->response;
         if(($this->initCallback))
         {
@@ -211,7 +211,7 @@ class Xajax
      */
     public function controller($classname)
     {
-        $controller = $this->xajax->registerClass($classname, true);
+        $controller = $this->jaxon->registerClass($classname, true);
         if(!$controller)
         {
             return null;
@@ -221,10 +221,10 @@ class Xajax
     }
 
     /**
-     * This is the pre-request processing callback passed to the Xajax library.
+     * This is the pre-request processing callback passed to the Jaxon library.
      *
      * @param  boolean  &$bEndRequest if set to true, the request processing is interrupted.
-     * @return object  the Xajax response
+     * @return object  the Jaxon response
      */
     public function preProcess(&$bEndRequest)
     {
@@ -259,9 +259,9 @@ class Xajax
     }
 
     /**
-     * This is the post-request processing callback passed to the Xajax library.
+     * This is the post-request processing callback passed to the Jaxon library.
      *
-     * @return object  the Xajax response
+     * @return object  the Jaxon response
      */
     public function postProcess()
     {
@@ -274,19 +274,19 @@ class Xajax
     }
 
     /**
-     * Process the current Xajax request.
+     * Process the current Jaxon request.
      *
      * @return void
      */
     public function processRequest()
     {
-        // Process Xajax Request
-        $this->xajax->register(\Xajax\Xajax::PROCESSING_EVENT, \Xajax\Xajax::PROCESSING_EVENT_BEFORE, array($this, 'preProcess'));
-        $this->xajax->register(\Xajax\Xajax::PROCESSING_EVENT, \Xajax\Xajax::PROCESSING_EVENT_AFTER, array($this, 'postProcess'));
-        if($this->xajax->canProcessRequest())
+        // Process Jaxon Request
+        $this->jaxon->register(\Jaxon\Jaxon::PROCESSING_EVENT, \Jaxon\Jaxon::PROCESSING_EVENT_BEFORE, array($this, 'preProcess'));
+        $this->jaxon->register(\Jaxon\Jaxon::PROCESSING_EVENT, \Jaxon\Jaxon::PROCESSING_EVENT_AFTER, array($this, 'postProcess'));
+        if($this->jaxon->canProcessRequest())
         {
             // Traiter la requete
-            $this->xajax->processRequest();
+            $this->jaxon->processRequest();
         }
     }
 }

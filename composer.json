@@ -1,23 +1,23 @@
 {
-    "name": "lagdo/xajax-codeigniter",
+    "name": "lagdo/jaxon-codeigniter",
     "type": "library",
-    "description": "Xajax library integration for the CodeIgniter framework",
+    "description": "Jaxon library integration for the CodeIgniter framework",
     "authors": [
         {"name": "Thierry Feuzeu"}
     ],
-    "homepage": "https://github.com/lagdo/xajax-codeigniter",
+    "homepage": "https://github.com/lagdo/jaxon-codeigniter",
     "license": "BSD-2-Clause",
-    "keywords": ["Xajax", "Ajax", "PHP", "Framework", "CodeIgniter"],
+    "keywords": ["Jaxon", "Xajax", "Ajax", "PHP", "Framework", "CodeIgniter"],
     "support": {
-        "issues": "https://github.com/lagdo/xajax-codeigniter/issues",
-        "source": "https://github.com/lagdo/xajax-codeigniter"
+        "issues": "https://github.com/lagdo/jaxon-codeigniter/issues",
+        "source": "https://github.com/lagdo/jaxon-codeigniter"
     },
     "require": {
-        "lagdo/xajax-core": "dev-master"
+        "lagdo/jaxon-core": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Xajax\\CI\\": "src/"
+            "Jaxon\\CI\\": "src/"
         },
         "files": [
             "src/start.php"
