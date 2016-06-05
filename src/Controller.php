@@ -8,6 +8,7 @@ class Controller
 
     // Application data
     // These data will be set by the CI Jaxon library when registering the controller
+    public $view = null;
     public $ci_jaxon = null; // CI Jaxon library
     public $response = null;
 
