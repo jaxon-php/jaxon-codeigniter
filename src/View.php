@@ -5,7 +5,7 @@ namespace Jaxon\CI;
 class View
 {
     protected static $data;
-    protected $ci;
+    protected $controller;
 
     public function __construct()
     {
@@ -13,7 +13,7 @@ class View
         {
             self::$data = array();
         }
-        $this->ci = get_instance();
+        $this->controller = get_instance();
     }
 
     /**
@@ -39,6 +39,6 @@ class View
      */
     public function render($template, array $data = array())
     {
-        return $this->ci->load->view($template, array_merge(self::$data, $data), true);
+        return $this->controller->load->view($template, array_merge(self::$data, $data), true);
     }
 }

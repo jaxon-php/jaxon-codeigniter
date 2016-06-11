@@ -10,6 +10,5 @@ class Jaxon_Controller extends CI_Controller
         parent::__construct();
         // Setup the Jaxon library
         $this->load->library('jaxon');
-        $this->jaxon->setup();
     }
 }

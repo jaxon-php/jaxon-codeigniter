@@ -5,21 +5,13 @@ namespace Jaxon\CI;
 class Response extends \Jaxon\Response\Response
 {
     /**
-     * The CodeIgniter Output class instance
-     *
-     * @var CI_Output
-     */
-    protected $output = null;
-
-    /**
      * Create a new Response instance.
      *
      * @return void
      */
-    public function __construct($output)
+    public function __construct()
     {
         parent::__construct();
-        $this->output = $output;
     }
 
     /**
@@ -32,7 +24,7 @@ class Response extends \Jaxon\Response\Response
     public function http($code = '200')
     {
         // Create and return a CodeIgniter HTTP response
-        $this->output
+        get_instance()->output
             ->set_status_header($code)
             ->set_content_type($this->getContentType(), $this->getCharacterEncoding())
             ->set_output($this->getOutput())
