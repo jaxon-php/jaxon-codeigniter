@@ -12,16 +12,18 @@ Features
 Installation
 ------------
 
-Add the following line in the `composer.json` file.
-```json
-"require": {
-    "lagdo/jaxon-codeigniter": "dev-master"
-}
-```
+First install CodeIgniter version 3.
 
-Or run the command
-```bash
-composer require lagdo/jaxon-codeigniter
+Create the `composer.json` file into the installation dir with the following content.
+```json
+{
+    "require": {
+        "lagdo/jaxon-core": "dev-master",
+        "lagdo/jaxon-framework": "dev-master",
+        "lagdo/jaxon-codeigniter": "dev-master",
+    },
+    "minimum-stability": "dev"
+}
 ```
 
 Copy the content of the `app/` directory of this repo to the `application/` dir of the CodeIgniter application.

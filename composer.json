@@ -13,6 +13,7 @@
         "source": "https://github.com/lagdo/jaxon-codeigniter"
     },
     "require": {
+        "lagdo/jaxon-core": "dev-master",
         "lagdo/jaxon-framework": "dev-master"
     },
     "autoload": {
