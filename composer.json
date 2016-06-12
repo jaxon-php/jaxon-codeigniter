@@ -19,9 +19,6 @@
     "autoload": {
         "psr-4": {
             "Jaxon\\CI\\": "src/"
-        },
-        "files": [
-            "src/start.php"
-        ]
+        }
     }
 }
