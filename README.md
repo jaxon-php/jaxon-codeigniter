@@ -18,9 +18,9 @@ Create the `composer.json` file into the installation dir with the following con
 ```json
 {
     "require": {
-        "lagdo/jaxon-core": "dev-master",
-        "lagdo/jaxon-framework": "dev-master",
-        "lagdo/jaxon-codeigniter": "dev-master",
+        "jaxon-php/jaxon-core": "dev-master",
+        "jaxon-php/jaxon-framework": "dev-master",
+        "jaxon-php/jaxon-codeigniter": "dev-master",
     },
     "minimum-stability": "dev"
 }
@@ -88,8 +88,8 @@ The `app.namespace` option must be explicitely set to `null`, `false` or an empt
 Contribute
 ----------
 
-- Issue Tracker: github.com/lagdo/jaxon-codeigniter/issues
-- Source Code: github.com/lagdo/jaxon-codeigniter
+- Issue Tracker: github.com/jaxon-php/jaxon-codeigniter/issues
+- Source Code: github.com/jaxon-php/jaxon-codeigniter
 
 License
 -------
