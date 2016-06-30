@@ -51,7 +51,7 @@ class Jaxon
         $this->jaxon->useComposerAutoloader();
         // Jaxon library default options
         $this->jaxon->setOptions(array(
-            'js.app.export' => !$ci->config->item('debug'),
+            'js.app.extern' => !$ci->config->item('debug'),
             'js.app.minify' => !$ci->config->item('debug'),
             'js.app.uri' => $ci->config->item('base_url') . 'jaxon/js',
             'js.app.dir' => FCPATH . 'jaxon/js',
