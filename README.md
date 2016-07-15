@@ -18,11 +18,10 @@ Create the `composer.json` file into the installation dir with the following con
 ```json
 {
     "require": {
-        "jaxon-php/jaxon-core": "dev-master",
-        "jaxon-php/jaxon-framework": "dev-master",
-        "jaxon-php/jaxon-codeigniter": "dev-master",
-    },
-    "minimum-stability": "dev"
+        "jaxon-php/jaxon-core": "~1.0",
+        "jaxon-php/jaxon-framework": "~1.0",
+        "jaxon-php/jaxon-codeigniter": "1.0.*",
+    }
 }
 ```
 
