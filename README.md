@@ -1,7 +1,7 @@
 Jaxon Library for CodeIgniter
 =============================
 
-This package integrates the Jaxon library into the CodeIgniter 3 framework.
+This package integrates the [Jaxon library](https://github.com/jaxon-php/jaxon-core) into the CodeIgniter 3 framework.
 
 Features
 --------
@@ -18,8 +18,6 @@ Create the `composer.json` file into the installation dir with the following con
 ```json
 {
     "require": {
-        "jaxon-php/jaxon-core": "~1.0",
-        "jaxon-php/jaxon-framework": "~1.0",
         "jaxon-php/jaxon-codeigniter": "1.0.*",
     }
 }
