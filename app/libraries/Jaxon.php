@@ -34,18 +34,7 @@ class Jaxon
         // Load Jaxon config settings
         $ci = get_instance();
         $ci->config->load('jaxon', true);
-        // Jaxon application settings
-        $appConfig = $ci->config->item('app', 'jaxon');
-        $controllerDir = (array_key_exists('dir', $appConfig) ? $appConfig['dir'] : APPPATH . 'jaxon');
-        $namespace = (array_key_exists('namespace', $appConfig) ? $appConfig['namespace'] : '\\Jaxon\\App');
 
-        $excluded = (array_key_exists('excluded', $appConfig) ? $appConfig['excluded'] : array());
-        // The public methods of the Controller base class must not be exported to javascript
-        $controllerClass = new \ReflectionClass('\\Jaxon\\CI\\Controller');
-        foreach ($controllerClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $xMethod)
-        {
-            $excluded[] = $xMethod->getShortName();
-        }
         // Use the Composer autoloader
         $this->jaxon->useComposerAutoloader();
         // Jaxon library default options
@@ -55,9 +44,23 @@ class Jaxon
             'js.app.uri' => $ci->config->item('base_url') . 'jaxon/js',
             'js.app.dir' => FCPATH . 'jaxon/js',
         ));
+
         // Jaxon library settings
         $libConfig = $ci->config->item('lib', 'jaxon');
-        \Jaxon\Config\Config::setOptions($libConfig);
+        $this->jaxon->setOptions($libConfig);
+
+        // Jaxon application settings
+        $appConfig = $ci->config->item('app', 'jaxon');
+        $controllerDir = (array_key_exists('dir', $appConfig) ? $appConfig['dir'] : APPPATH . 'jaxon');
+        $namespace = (array_key_exists('namespace', $appConfig) ? $appConfig['namespace'] : '\\Jaxon\\App');
+        $excluded = (array_key_exists('excluded', $appConfig) ? $appConfig['excluded'] : array());
+        // The public methods of the Controller base class must not be exported to javascript
+        $controllerClass = new \ReflectionClass('\\Jaxon\\CI\\Controller');
+        foreach ($controllerClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $xMethod)
+        {
+            $excluded[] = $xMethod->getShortName();
+        }
+
         // Set the request URI
         if(!$this->jaxon->getOption('core.request.uri'))
         {
