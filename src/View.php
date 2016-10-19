@@ -4,15 +4,12 @@ namespace Jaxon\CI;
 
 class View
 {
-    protected static $data;
+    protected $data;
     protected $controller;
 
     public function __construct()
     {
-        if(!is_array(self::$data))
-        {
-            self::$data = array();
-        }
+        $this->data = array();
         $this->controller = get_instance();
     }
 
@@ -26,7 +23,7 @@ class View
      */
     public function share($name, $value)
     {
-        self::$data[$name] = $value;
+        $this->data[$name] = $value;
     }
 
     /**
@@ -39,6 +36,6 @@ class View
      */
     public function render($template, array $data = array())
     {
-        return $this->controller->load->view($template, array_merge(self::$data, $data), true);
+        return trim($this->controller->load->view($template, array_merge($this->data, $data), true), "\n");
     }
 }
