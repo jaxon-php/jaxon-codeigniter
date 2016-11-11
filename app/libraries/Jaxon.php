@@ -24,13 +24,6 @@ class Jaxon
      */
     public function setup()
     {
-        // This function should be called only once
-        if(($this->setupCalled))
-        {
-            return;
-        }
-        $this->setupCalled = true;
-
         // Load Jaxon config settings
         $ci = get_instance();
         $ci->config->load('jaxon', true);
