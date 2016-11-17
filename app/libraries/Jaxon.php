@@ -60,11 +60,11 @@ class Jaxon
     public function httpResponse($code = '200')
     {
         // Send HTTP Headers
-        $this->response->sendHeaders();
+        // $this->response->sendHeaders();
         // Create and return a CodeIgniter HTTP response
         get_instance()->output
             ->set_status_header($code)
-            // ->set_content_type($this->response->getContentType(), $this->response->getCharacterEncoding())
+            ->set_content_type($this->response->getContentType(), $this->response->getCharacterEncoding())
             ->set_output($this->response->getOutput())
             ->_display();
     }
