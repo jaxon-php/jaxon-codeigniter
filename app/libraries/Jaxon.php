@@ -3,19 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Jaxon
 {
-    use \Jaxon\Framework\JaxonTrait;
-
-    /**
-     * Create a new Jaxon instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->jaxon = jaxon();
-        $this->response = new \Jaxon\CI\Response();
-        $this->view = new \Jaxon\CI\View();
-    }
+    use \Jaxon\Framework\PluginTrait;
 
     /**
      * Initialise the Jaxon library.
@@ -24,12 +12,11 @@ class Jaxon
      */
     public function setup()
     {
+        $this->view = new \Jaxon\CI\View();
         // Load Jaxon config settings
         $ci = get_instance();
         $ci->config->load('jaxon', true);
 
-        // Use the Composer autoloader
-        $this->jaxon->useComposerAutoloader();
         // Jaxon library default options
         $this->jaxon->setOptions(array(
             'js.app.extern' => !$ci->config->item('debug'),
@@ -61,5 +48,24 @@ class Jaxon
         }
         // Register the default Jaxon class directory
         $this->jaxon->addClassDir($controllerDir, $namespace, $excluded);
+    }
+
+    /**
+     * Wrap the Jaxon response into an HTTP response.
+     *
+     * @param  $code        The HTTP Response code
+     *
+     * @return HTTP Response
+     */
+    public function httpResponse($code = '200')
+    {
+        // Send HTTP Headers
+        $this->response->sendHeaders();
+        // Create and return a CodeIgniter HTTP response
+        get_instance()->output
+            ->set_status_header($code)
+            // ->set_content_type($this->response->getContentType(), $this->response->getCharacterEncoding())
+            ->set_output($this->response->getOutput())
+            ->_display();
     }
 }
