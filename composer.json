@@ -13,8 +13,7 @@
         "source": "https://github.com/jaxon-php/jaxon-codeigniter"
     },
     "require": {
-        "jaxon-php/jaxon-core": "~1.0",
-        "jaxon-php/jaxon-framework": "~1.0"
+        "jaxon-php/jaxon-core": "dev-master"
     },
     "autoload": {
         "psr-4": {

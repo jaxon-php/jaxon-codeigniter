@@ -2,6 +2,6 @@
 
 namespace Jaxon\CI;
 
-class Controller extends \Jaxon\Framework\Controller
+class Controller extends \Jaxon\Module\Controller
 {
 }

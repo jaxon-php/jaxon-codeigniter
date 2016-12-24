@@ -3,51 +3,86 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Jaxon
 {
-    use \Jaxon\Framework\PluginTrait;
+    use \Jaxon\Module\Traits\Module;
 
     /**
-     * Initialise the Jaxon library.
+     * Set the module specific options for the Jaxon library.
      *
      * @return void
      */
-    public function setup()
+    protected function setup()
     {
-        $this->view = new \Jaxon\CI\View();
         // Load Jaxon config settings
         $ci = get_instance();
         $ci->config->load('jaxon', true);
-
-        // Jaxon library default options
-        $this->jaxon->setOptions(array(
-            'js.app.extern' => !$ci->config->item('debug'),
-            'js.app.minify' => !$ci->config->item('debug'),
-            'js.app.uri' => $ci->config->item('base_url') . 'jaxon/js',
-            'js.app.dir' => FCPATH . 'jaxon/js',
-        ));
+        $libConfig = $ci->config->item('lib', 'jaxon');
+        $appConfig = $ci->config->item('app', 'jaxon');
 
         // Jaxon library settings
-        $libConfig = $ci->config->item('lib', 'jaxon');
-        $this->jaxon->setOptions($libConfig);
+        $jaxon = jaxon();
+        $jaxon->setOptions($libConfig);
+        // Default values
+        if(!$jaxon->hasOption('js.app.extern'))
+        {
+            $jaxon->setOption('js.app.extern', !$ci->config->item('debug'));
+        }
+        if(!$jaxon->hasOption('js.app.minify'))
+        {
+            $jaxon->setOption('js.app.minify', !$ci->config->item('debug'));
+        }
+        if(!$jaxon->hasOption('js.app.uri'))
+        {
+            $jaxon->setOption('js.app.uri', $ci->config->item('base_url') . 'jaxon/js');
+        }
+        if(!$jaxon->hasOption('js.app.dir'))
+        {
+            $jaxon->setOption('js.app.dir', FCPATH . 'jaxon/js');
+        }
 
         // Jaxon application settings
-        $appConfig = $ci->config->item('app', 'jaxon');
-        $controllerDir = (array_key_exists('dir', $appConfig) ? $appConfig['dir'] : APPPATH . 'jaxon');
-        $namespace = (array_key_exists('namespace', $appConfig) ? $appConfig['namespace'] : '\\Jaxon\\App');
-        $excluded = (array_key_exists('excluded', $appConfig) ? $appConfig['excluded'] : array());
-        // The public methods of the Controller base class must not be exported to javascript
-        $controllerClass = new \ReflectionClass('\\Jaxon\\CI\\Controller');
-        foreach ($controllerClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $xMethod)
+        $this->appConfig = new \Jaxon\Utils\Config();
+        $this->appConfig->setOptions($appConfig);
+        // Default values
+        if(!$this->appConfig->hasOption('controllers.directory'))
         {
-            $excluded[] = $xMethod->getShortName();
+            $this->appConfig->setOption('controllers.directory', APPPATH . 'jaxon');
         }
+        if(!$this->appConfig->hasOption('controllers.namespace'))
+        {
+            $this->appConfig->setOption('controllers.namespace', '\\Jaxon\\App');
+        }
+        if(!$this->appConfig->hasOption('controllers.protected') || !is_array($this->appConfig->getOption('protected')))
+        {
+            $this->appConfig->setOption('controllers.protected', array());
+        }
+        // Jaxon controller class
+        $this->setControllerClass('\\Jaxon\\CI\\Controller');
+    }
 
-        // Set the request URI
-        if(!$this->jaxon->getOption('core.request.uri'))
+    /**
+     * Set the module specific options for the Jaxon library.
+     *
+     * This method needs to set at least the Jaxon request URI.
+     *
+     * @return void
+     */
+    protected function check()
+    {
+        // Todo: check the mandatory options
+    }
+
+    /**
+     * Return the view renderer.
+     *
+     * @return void
+     */
+    protected function view()
+    {
+        if($this->viewRenderer == null)
         {
-            $this->jaxon->setOption('core.request.uri', 'jaxon');
+            $this->viewRenderer = new \Jaxon\CI\View();
         }
-        // Register the default Jaxon class directory
-        $this->jaxon->addClassDir($controllerDir, $namespace, $excluded);
+        return $this->viewRenderer;
     }
 
     /**
@@ -59,8 +94,6 @@ class Jaxon
      */
     public function httpResponse($code = '200')
     {
-        // Send HTTP Headers
-        // $this->response->sendHeaders();
         // Create and return a CodeIgniter HTTP response
         get_instance()->output
             ->set_status_header($code)
