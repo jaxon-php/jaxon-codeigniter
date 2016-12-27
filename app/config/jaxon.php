@@ -1,9 +1,12 @@
 <?php
 
 $config['app'] = array(
-    // 'dir' => '',
-    // 'namespace' => '',
-    // 'excluded' => array(),
+    'controllers' => array(
+        // 'directory' => '',
+        // 'namespace' => '',
+        // 'separator' => '', // '.' or '_'
+        // 'protected.' => array(),
+    ),
 );
 $config['lib'] = array(
     'core' => array(

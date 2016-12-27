@@ -10,7 +10,7 @@ class Jaxon
      *
      * @return void
      */
-    protected function setup()
+    protected function jaxonSetup()
     {
         // Load Jaxon config settings
         $ci = get_instance();
@@ -21,40 +21,20 @@ class Jaxon
         // Jaxon library settings
         $jaxon = jaxon();
         $jaxon->setOptions($libConfig);
-        // Default values
-        if(!$jaxon->hasOption('js.app.extern'))
-        {
-            $jaxon->setOption('js.app.extern', !$ci->config->item('debug'));
-        }
-        if(!$jaxon->hasOption('js.app.minify'))
-        {
-            $jaxon->setOption('js.app.minify', !$ci->config->item('debug'));
-        }
-        if(!$jaxon->hasOption('js.app.uri'))
-        {
-            $jaxon->setOption('js.app.uri', $ci->config->item('base_url') . 'jaxon/js');
-        }
-        if(!$jaxon->hasOption('js.app.dir'))
-        {
-            $jaxon->setOption('js.app.dir', FCPATH . 'jaxon/js');
-        }
 
         // Jaxon application settings
         $this->appConfig = new \Jaxon\Utils\Config();
         $this->appConfig->setOptions($appConfig);
-        // Default values
-        if(!$this->appConfig->hasOption('controllers.directory'))
-        {
-            $this->appConfig->setOption('controllers.directory', APPPATH . 'jaxon');
-        }
-        if(!$this->appConfig->hasOption('controllers.namespace'))
-        {
-            $this->appConfig->setOption('controllers.namespace', '\\Jaxon\\App');
-        }
-        if(!$this->appConfig->hasOption('controllers.protected') || !is_array($this->appConfig->getOption('protected')))
-        {
-            $this->appConfig->setOption('controllers.protected', array());
-        }
+
+        // Jaxon library default settings
+        $isDebug = $ci->config->item('debug');
+        $baseUrl = rtrim($ci->config->item('base_url'), '/') ;
+        $baseDir = rtrim(FCPATH, '/');
+        $this->setLibraryOptions(!$isDebug, !$isDebug, $baseUrl . '/jaxon/js', $baseDir . '/jaxon/js');
+
+        // Jaxon application default settings
+        $this->setApplicationOptions(rtrim(APPPATH, '/') . '/jaxon/controllers', '\\Jaxon\\App');
+
         // Jaxon controller class
         $this->setControllerClass('\\Jaxon\\CI\\Controller');
     }
@@ -66,7 +46,7 @@ class Jaxon
      *
      * @return void
      */
-    protected function check()
+    protected function jaxonCheck()
     {
         // Todo: check the mandatory options
     }
@@ -76,13 +56,13 @@ class Jaxon
      *
      * @return void
      */
-    protected function view()
+    protected function jaxonView()
     {
-        if($this->viewRenderer == null)
+        if($this->jaxonViewRenderer == null)
         {
-            $this->viewRenderer = new \Jaxon\CI\View();
+            $this->jaxonViewRenderer = new \Jaxon\CI\View();
         }
-        return $this->viewRenderer;
+        return $this->jaxonViewRenderer;
     }
 
     /**
