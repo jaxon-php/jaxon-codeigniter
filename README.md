@@ -18,7 +18,7 @@ Create the `composer.json` file into the installation dir with the following con
 ```json
 {
     "require": {
-        "jaxon-php/jaxon-codeigniter": "1.0.*",
+        "jaxon-php/jaxon-codeigniter": "~2.0",
     }
 }
 ```
