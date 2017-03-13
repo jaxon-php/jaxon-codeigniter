@@ -2,40 +2,29 @@
 
 namespace Jaxon\CI;
 
-class View
+use Jaxon\Module\View\Store;
+use Jaxon\Module\View\Facade;
+
+class View extends Facade
 {
-    protected $data;
     protected $controller;
 
     public function __construct()
     {
-        $this->data = array();
+        parent::__construct();
         $this->controller = get_instance();
     }
 
     /**
-     * Make a piece of data available for all views
-     *
-     * @param string        $name            The data name
-     * @param string        $value            The data value
+     * Render a view
      * 
-     * @return void
-     */
-    public function share($name, $value)
-    {
-        $this->data[$name] = $value;
-    }
-
-    /**
-     * Render a template
-     *
-     * @param string        $template        The template path
-     * @param string        $data            The template data
+     * @param Store         $store        A store populated with the view data
      * 
-     * @return mixed        The rendered template
+     * @return string        The string representation of the view
      */
-    public function render($template, array $data = array())
+    public function make(Store $store)
     {
-        return trim($this->controller->load->view($template, array_merge($this->data, $data), true), "\n");
+        // Render the template
+        return trim($this->controller->load->view($store->getViewPath(), $store->getViewData(), true), " \t\n");
     }
 }
