@@ -42,6 +42,11 @@ class Jaxon
         $this->setJaxonView(function(){
             return new \Jaxon\CI\View();
         });
+
+        // Set the session
+        $this->setJaxonSession(function(){
+            return new Jaxon\CI\Session();
+        });
     }
 
     /**

@@ -8,6 +8,8 @@ class Process extends CI_Controller
         parent::__construct();
         // Load the Jaxon library
         $this->load->library('jaxon');
+        // Load the session library
+        $this->load->library('session');
     }
 
     public function index()
