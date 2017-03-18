@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require(__DIR__ . '/../Jaxon_Controller.php');
-
-class Process extends Jaxon_Controller
+class Process extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
+        // Load the Jaxon library
+        $this->load->library('jaxon');
     }
 
     public function index()
