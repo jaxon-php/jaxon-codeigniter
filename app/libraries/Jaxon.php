@@ -35,9 +35,6 @@ class Jaxon
         // Jaxon application default settings
         $this->setApplicationOptions(rtrim(APPPATH, '/') . '/jaxon/controllers', '\\Jaxon\\App');
 
-        // Jaxon controller class
-        $this->setControllerClass('\\Jaxon\\CI\\Controller');
-
         // Set the view
         $this->setJaxonView(function(){
             return new \Jaxon\CI\View();
