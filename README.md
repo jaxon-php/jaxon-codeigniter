@@ -47,13 +47,16 @@ Usage
 
 This is an example of a CodeIgniter controller using the Jaxon library.
 ```php
-require(__DIR__ . '/Jaxon_Controller.php');
 
-class Demo extends Jaxon_Controller
+class Demo extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
+        // Load the Jaxon library
+        $this->load->library('jaxon');
+        // Load the template parser library
+        $this->load->library('parser');
     }
 
     public function index()
@@ -62,7 +65,6 @@ class Demo extends Jaxon_Controller
         $this->jaxon->register();
 
         // Print the page
-        $this->load->library('parser');
         $this->parser->parse('index', array(
             'JaxonCss' => $this->jaxon->css(),
             'JaxonJs' => $this->jaxon->js(),
@@ -79,12 +81,29 @@ Then it calls the `$this->jaxon->css()`, `$this->jaxon->js()` and `$this->jaxon-
 
 ### The Jaxon classes
 
-The Jaxon classes must inherit from `\Jaxon\CI\Controller`.
+The Jaxon classes must inherit from `\Jaxon\Module\Controller`.
 
 The Jaxon classes of the application must all be located in the directory indicated by the `app.controllers.directory` option in the `jaxon.php` config file.
 If there is a namespace associated, the `app.controllers.namespace` option should be set accordingly.
 
 By default, the Jaxon classes are located in the `APPPATH/jaxon/controllers` dir of the CodeIgniter application, and the associated namespace is `\Jaxon\App`.
+
+This is a simple example of a Jaxon class, defined in the `APPPATH/jaxon/controllers/HelloWorld.php` file.
+
+```php
+namespace Jaxon\App;
+
+class HelloWorld extends \Jaxon\Module\Controller
+{
+    public function sayHello()
+    {
+        $this->response->assign('div2', 'innerHTML', 'Hello World!');
+        return $this->response;
+    }
+}
+```
+
+Check the [jaxon-examples](https://github.com/jaxon-php/jaxon-examples/tree/master/frameworks/codeigniter) package for more examples.
 
 Contribute
 ----------
