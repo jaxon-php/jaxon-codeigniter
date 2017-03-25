@@ -55,8 +55,6 @@ class Demo extends CI_Controller
         parent::__construct();
         // Load the Jaxon library
         $this->load->library('jaxon');
-        // Load the template parser library
-        $this->load->library('parser');
     }
 
     public function index()
@@ -65,7 +63,7 @@ class Demo extends CI_Controller
         $this->jaxon->register();
 
         // Print the page
-        $this->parser->parse('index', array(
+        $this->load->view('index', array(
             'JaxonCss' => $this->jaxon->css(),
             'JaxonJs' => $this->jaxon->js(),
             'JaxonScript' => $this->jaxon->script()
