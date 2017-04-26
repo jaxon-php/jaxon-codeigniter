@@ -15,6 +15,7 @@ Installation
 First install CodeIgniter version 3.
 
 Create the `composer.json` file into the installation dir with the following content.
+
 ```json
 {
     "require": {
@@ -25,6 +26,9 @@ Create the `composer.json` file into the installation dir with the following con
 
 Copy the content of the `app/` directory of this repo to the `application/` dir of the CodeIgniter application.
 This will install the Jaxon library for CodeIgniter, as well as the controller to process Jaxon requests and a default config file.
+
+The version 3 of the CodeIgniter framework does not natively support Composer.
+The Composer `vendor/autoload.php` file must therefore be manually included in the application.
 
 Configuration
 ------------
