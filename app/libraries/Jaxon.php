@@ -3,7 +3,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Jaxon
 {
-    use \Jaxon\Module\Traits\Module;
+    use \Jaxon\Sentry\Traits\Armada;
 
     /**
      * Set the module specific options for the Jaxon library.
@@ -20,6 +20,7 @@ class Jaxon
 
         // Jaxon library settings
         $jaxon = jaxon();
+        $sentry = jaxon()->sentry();
         $jaxon->setOptions($libConfig);
 
         // Jaxon application settings
@@ -30,19 +31,19 @@ class Jaxon
         $isDebug = $ci->config->item('debug');
         $baseUrl = rtrim($ci->config->item('base_url'), '/') ;
         $baseDir = rtrim(FCPATH, '/');
-        $this->setLibraryOptions(!$isDebug, !$isDebug, $baseUrl . '/jaxon/js', $baseDir . '/jaxon/js');
+        $sentry->setLibraryOptions(!$isDebug, !$isDebug, $baseUrl . '/jaxon/js', $baseDir . '/jaxon/js');
 
         // Set the default view namespace
-        $this->addViewNamespace('default', '', '', 'codeigniter');
+        $sentry->addViewNamespace('default', '', '', 'codeigniter');
         $this->appConfig->setOption('options.views.default', 'default');
 
         // Add the view renderer
-        $this->addViewRenderer('codeigniter', function(){
+        $sentry->addViewRenderer('codeigniter', function(){
             return new \Jaxon\CI\View();
         });
 
         // Set the session manager
-        $this->setSessionManager(function(){
+        $sentry->setSessionManager(function(){
             return new Jaxon\CI\Session();
         });
     }
