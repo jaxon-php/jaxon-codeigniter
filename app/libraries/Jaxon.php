@@ -72,8 +72,8 @@ class Jaxon
         // Create and return a CodeIgniter HTTP response
         get_instance()->output
             ->set_status_header($code)
-            ->set_content_type($this->jaxonResponse->getContentType(), $this->jaxonResponse->getCharacterEncoding())
-            ->set_output($this->jaxonResponse->getOutput())
+            ->set_content_type($this->ajaxResponse()->getContentType(), $this->ajaxResponse()->getCharacterEncoding())
+            ->set_output($this->ajaxResponse()->getOutput())
             ->_display();
     }
 }
