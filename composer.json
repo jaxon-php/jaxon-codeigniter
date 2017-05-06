@@ -6,7 +6,7 @@
         {"name": "Thierry Feuzeu"}
     ],
     "homepage": "https://github.com/jaxon-php/jaxon-codeigniter",
-    "license": "BSD-2-Clause",
+    "license": "BSD-3-Clause",
     "keywords": ["Jaxon", "Xajax", "Ajax", "PHP", "Framework", "CodeIgniter"],
     "support": {
         "issues": "https://github.com/jaxon-php/jaxon-codeigniter/issues",
