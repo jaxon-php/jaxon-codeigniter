@@ -92,7 +92,7 @@ Then it calls the `$this->jaxon->css()`, `$this->jaxon->js()` and `$this->jaxon-
 
 ### The Jaxon classes
 
-The Jaxon classes must inherit from `\Jaxon\Sentry\Classes\Armada`.
+The Jaxon classes must inherit from `\Jaxon\Sentry\Armada`.
 By default, they are located in the `APPPATH/jaxon/classes` dir of the CodeIgniter application, and the associated namespace is `\Jaxon\App`.
 
 This is a simple example of a Jaxon class, defined in the `APPPATH/jaxon/classes/HelloWorld.php` file.
@@ -100,7 +100,7 @@ This is a simple example of a Jaxon class, defined in the `APPPATH/jaxon/classes
 ```php
 namespace Jaxon\App;
 
-class HelloWorld extends \Jaxon\Sentry\Classes\Armada
+class HelloWorld extends \Jaxon\Sentry\Armada
 {
     public function sayHello()
     {
