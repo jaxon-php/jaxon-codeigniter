@@ -1,5 +1,5 @@
 <?php
-if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+if (! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Jaxon
 {
@@ -38,12 +38,12 @@ class Jaxon
         $this->appConfig->setOption('options.views.default', 'default');
 
         // Add the view renderer
-        $sentry->addViewRenderer('codeigniter', function(){
+        $sentry->addViewRenderer('codeigniter', function () {
             return new \Jaxon\CI\View();
         });
 
         // Set the session manager
-        $sentry->setSessionManager(function(){
+        $sentry->setSessionManager(function () {
             return new Jaxon\CI\Session();
         });
     }
