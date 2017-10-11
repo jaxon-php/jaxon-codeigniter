@@ -62,13 +62,13 @@ class Process extends CI_Controller
      */
     public function index()
     {
-        $this->jaxon->onInit(function($instance) {
+        $this->jaxon->onInit(function ($instance) {
             $this->initInstance($instance);
         });
-        $this->jaxon->onBefore(function($instance, $method, &$bEndRequest) {
+        $this->jaxon->onBefore(function ($instance, $method, &$bEndRequest) {
             $this->beforeRequest($instance, $method, $bEndRequest);
         });
-        $this->jaxon->onAfter(function($instance, $method) {
+        $this->jaxon->onAfter(function ($instance, $method) {
             $this->afterRequest($instance, $method);
         });
 
