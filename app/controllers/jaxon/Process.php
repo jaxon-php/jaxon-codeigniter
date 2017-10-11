@@ -17,7 +17,7 @@ class Process extends CI_Controller
 
     /**
      * Callback for initializing a Jaxon class instance.
-     * 
+     *
      * This function is called anytime a Jaxon class is instanciated.
      *
      * @param object            $instance               The Jaxon class instance
@@ -55,20 +55,20 @@ class Process extends CI_Controller
 
     /**
      * Process a Jaxon request.
-     * 
+     *
      * The HTTP response is automatically sent back to the browser
      *
      * @return void
      */
     public function index()
     {
-        $this->jaxon->onInit(function($instance){
+        $this->jaxon->onInit(function($instance) {
             $this->initInstance($instance);
         });
-        $this->jaxon->onBefore(function($instance, $method, &$bEndRequest){
+        $this->jaxon->onBefore(function($instance, $method, &$bEndRequest) {
             $this->beforeRequest($instance, $method, $bEndRequest);
         });
-        $this->jaxon->onAfter(function($instance, $method){
+        $this->jaxon->onAfter(function($instance, $method) {
             $this->afterRequest($instance, $method);
         });
 
