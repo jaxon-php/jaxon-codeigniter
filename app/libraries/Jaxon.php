@@ -3,12 +3,12 @@ if (! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Jaxon
 {
-    use \Jaxon\Sentry\Traits\Armada;
+    use \Jaxon\Features\App;
 
     public function __construct()
     {
         // Initialize the Jaxon plugin
-        $this->_jaxonSetup();
+        $this->setup();
     }
 
     /**
@@ -16,54 +16,39 @@ class Jaxon
      *
      * @return void
      */
-    protected function jaxonSetup()
+    protected function setup()
     {
         // Load Jaxon config settings
         $ci = get_instance();
         $ci->config->load('jaxon', true);
-        $libConfig = $ci->config->item('lib', 'jaxon');
-        $appConfig = $ci->config->item('app', 'jaxon');
-
-        // Jaxon library settings
-        $jaxon = jaxon();
-        $sentry = $jaxon->sentry();
-        $jaxon->setOptions($libConfig);
-
-        // Jaxon application settings
-        $this->appConfig = $jaxon->newConfig();
-        $this->appConfig->setOptions($appConfig);
+        $aLibOptions = $ci->config->item('lib', 'jaxon');
+        $aAppOptions = $ci->config->item('app', 'jaxon');
 
         // Jaxon library default settings
-        $isDebug = $ci->config->item('debug');
-        $baseUrl = rtrim($ci->config->item('base_url'), '/') ;
-        $baseDir = rtrim(FCPATH, '/');
-        $sentry->setLibraryOptions(!$isDebug, !$isDebug, $baseUrl . '/jaxon/js', $baseDir . '/jaxon/js');
+        $bIsDebug = $ci->config->item('debug');
+        $sJsUrl = rtrim($ci->config->item('base_url'), '/') . '/jaxon/js';
+        $sJsDir = rtrim(FCPATH, '/') . '/jaxon/js';
 
+        $di = jaxon()->di();
+        $viewManager = $di->getViewmanager();
         // Set the default view namespace
-        $sentry->addViewNamespace('default', '', '', 'codeigniter');
-        $this->appConfig->setOption('options.views.default', 'default');
-
+        $viewManager->addNamespace('default', '', '', 'codeigniter');
         // Add the view renderer
-        $sentry->addViewRenderer('codeigniter', function () {
+        $viewManager->addRenderer('codeigniter', function () {
             return new \Jaxon\CI\View();
         });
 
         // Set the session manager
-        $sentry->setSessionManager(function () {
+        $di->setSessionManager(function () {
             return new Jaxon\CI\Session();
         });
-    }
 
-    /**
-     * Set the module specific options for the Jaxon library.
-     *
-     * This method needs to set at least the Jaxon request URI.
-     *
-     * @return void
-     */
-    protected function jaxonCheck()
-    {
-        // Todo: check the mandatory options
+        $this->jaxon()
+            ->lib($aLibOptions)
+            ->app($aAppOptions)
+            // ->uri($sUri)
+            ->js(!$bIsDebug, $sJsUrl, $sJsDir, !$bIsDebug)
+            ->bootstrap(false);
     }
 
     /**
@@ -71,7 +56,7 @@ class Jaxon
      *
      * @param  $code        The HTTP Response code
      *
-     * @return HTTP Response
+     * @return void
      */
     public function httpResponse($code = '200')
     {
