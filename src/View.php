@@ -2,10 +2,10 @@
 
 namespace Jaxon\CI;
 
-use Jaxon\Utils\View\Store;
-use Jaxon\Contracts\View as ViewContract;
+use Jaxon\Sentry\View\Store;
+use Jaxon\Sentry\Interfaces\View as ViewInterface;
 
-class View implements ViewContract
+class View implements ViewInterface
 {
     protected $controller;
 
