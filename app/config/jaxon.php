@@ -1,43 +1,43 @@
 <?php
 
-$config['app'] = array(
-    'classes' => array(
-        array(
+$config['app'] = [
+    'classes' => [
+        [
             'directory' => rtrim(APPPATH, '/') . '/jaxon/classes',
             'namespace' => '\\Jaxon\\App',
             // 'separator' => '', // '.' or '_'
-            // 'protected.' => array(),
-        ),
-    ),
-);
-$config['lib'] = array(
-    'core' => array(
+            // 'protected.' => [],
+        ],
+    ],
+];
+$config['lib'] = [
+    'core' => [
         'language' => 'en',
         'encoding' => 'UTF-8',
-        'request' => array(
+        'request' => [
             'uri' => 'jaxon/process',
-        ),
-        'prefix' => array(
+        ],
+        'prefix' => [
             'class' => '',
-        ),
-        'debug' => array(
+        ],
+        'debug' => [
             'on' => false,
             'verbose' => false,
-        ),
-        'error' => array(
+        ],
+        'error' => [
             'handle' => false,
-        ),
-    ),
-    'js' => array(
-        'lib' => array(
+        ],
+    ],
+    'js' => [
+        'lib' => [
             // 'uri' => '',
-        ),
-        'app' => array(
+        ],
+        'app' => [
             // 'uri' => '',
             // 'dir' => '',
-            'extern' => false,
+            'export' => false,
             'minify' => false,
             'options' => '',
-        ),
-    ),
-);
+        ],
+    ],
+];
