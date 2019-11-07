@@ -1,9 +1,8 @@
 <?php
 
 $config['app'] = [
-    'classes' => [
-        [
-            'directory' => rtrim(APPPATH, '/') . '/jaxon/classes',
+    'directories' => [
+        rtrim(APPPATH, '/') . '/jaxon/classes' => [
             'namespace' => '\\Jaxon\\App',
             // 'separator' => '', // '.' or '_'
             // 'protected.' => [],
