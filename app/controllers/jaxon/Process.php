@@ -56,7 +56,6 @@ class Process extends CI_Controller
         if($this->jaxon->canProcessRequest())
         {
             $this->jaxon->processRequest();
-            $this->jaxon->httpResponse();
         }
     }
 }

@@ -49,22 +49,31 @@ class Jaxon
             // ->uri($sUri)
             ->js(!$bIsDebug, $sJsUrl, $sJsDir, !$bIsDebug)
             ->run(false);
+
+        // Prevent the Jaxon library from sending the response or exiting
+        $jaxon->setOption('core.response.send', false);
+        $jaxon->setOption('core.process.exit', false);
     }
 
     /**
-     * Wrap the Jaxon response into an HTTP response.
+     * Process an incoming Jaxon request, and return the response.
      *
-     * @param  $code        The HTTP Response code
-     *
-     * @return void
+     * @return mixed
      */
-    public function httpResponse($code = '200')
+    public function processRequest()
     {
+        $jaxon = jaxon();
+        // Process the jaxon request
+        $jaxon->processRequest();
+        // Get the reponse to the request
+        $jaxonResponse = $jaxon->di()->getResponseManager()->getResponse();
+
         // Create and return a CodeIgniter HTTP response
+        $code = '200';
         get_instance()->output
             ->set_status_header($code)
-            ->set_content_type($this->ajaxResponse()->getContentType(), $this->ajaxResponse()->getCharacterEncoding())
-            ->set_output($this->ajaxResponse()->getOutput())
+            ->set_content_type($jaxonResponse->getContentType(), $jaxonResponse->getCharacterEncoding())
+            ->set_output($jaxonResponse->getOutput())
             ->_display();
     }
 }
