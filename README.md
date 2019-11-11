@@ -19,7 +19,7 @@ Create the `composer.json` file into the installation dir with the following con
 ```json
 {
     "require": {
-        "jaxon-php/jaxon-codeigniter": "~2.0",
+        "jaxon-php/jaxon-codeigniter": "~3.0",
     }
 }
 ```
@@ -40,12 +40,12 @@ The following options can be defined in the `app` section of the config file.
 
 | Name | Description |
 |------|---------------|
-| classes | An array of directory containing Jaxon application classes |
+| directories | An array of directory containing Jaxon application classes |
 | views   | An array of directory containing Jaxon application views |
 | | | |
 
 By default, the `views` array is empty. Views are rendered from the framework default location.
-There's a single entry in the `classes` array with the following values.
+There's a single entry in the `directories` array with the following values.
 
 | Name | Default value | Description |
 |------|---------------|-------------|
@@ -92,7 +92,7 @@ Then it calls the `$this->jaxon->css()`, `$this->jaxon->js()` and `$this->jaxon-
 
 ### The Jaxon classes
 
-The Jaxon classes must inherit from `\Jaxon\Sentry\Armada`.
+The Jaxon classes can inherit from `\Jaxon\CallableClass`.
 By default, they are located in the `APPPATH/jaxon/classes` dir of the CodeIgniter application, and the associated namespace is `\Jaxon\App`.
 
 This is a simple example of a Jaxon class, defined in the `APPPATH/jaxon/classes/HelloWorld.php` file.
@@ -100,7 +100,7 @@ This is a simple example of a Jaxon class, defined in the `APPPATH/jaxon/classes
 ```php
 namespace Jaxon\App;
 
-class HelloWorld extends \Jaxon\Sentry\Armada
+class HelloWorld extends \Jaxon\CallableClass
 {
     public function sayHello()
     {
@@ -110,20 +110,10 @@ class HelloWorld extends \Jaxon\Sentry\Armada
 }
 ```
 
-Check the [jaxon-examples](https://github.com/jaxon-php/jaxon-examples/tree/master/frameworks/codeigniter) package for more examples.
-
 ### Request processing
 
 By default, the Jaxon request are handled by the controller in the `app/controllers/jaxon/Process.php` file.
 The `jaxon/process` route linked by default to the `Process::index()` method.
-
-The request processing can be customized by extending the default controller and overloading the following method.
-
-- `public function initInstance($instance)`: called for any Jaxon class instanciated.
-- `public function beforeRequest($instance, $method, &$bEndRequest)`: called before processing the request.
-- `public function afterRequest($instance, $method)`: called after processing the request.
-
-See [https://www.jaxon-php.org/docs/armada/bootstrap.html]() for more information about processing callbacks.
 
 Contribute
 ----------

@@ -3,12 +3,12 @@ if (! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Jaxon
 {
-    use \Jaxon\Sentry\Traits\Armada;
+    use \Jaxon\Features\App;
 
     public function __construct()
     {
         // Initialize the Jaxon plugin
-        $this->_jaxonSetup();
+        $this->setup();
     }
 
     /**
@@ -16,70 +16,64 @@ class Jaxon
      *
      * @return void
      */
-    protected function jaxonSetup()
+    protected function setup()
     {
         // Load Jaxon config settings
         $ci = get_instance();
         $ci->config->load('jaxon', true);
-        $libConfig = $ci->config->item('lib', 'jaxon');
-        $appConfig = $ci->config->item('app', 'jaxon');
-
-        // Jaxon library settings
-        $jaxon = jaxon();
-        $sentry = $jaxon->sentry();
-        $jaxon->setOptions($libConfig);
-
-        // Jaxon application settings
-        $this->appConfig = $jaxon->newConfig();
-        $this->appConfig->setOptions($appConfig);
+        $aLibOptions = $ci->config->item('lib', 'jaxon');
+        $aAppOptions = $ci->config->item('app', 'jaxon');
 
         // Jaxon library default settings
-        $isDebug = $ci->config->item('debug');
-        $baseUrl = rtrim($ci->config->item('base_url'), '/') ;
-        $baseDir = rtrim(FCPATH, '/');
-        $sentry->setLibraryOptions(!$isDebug, !$isDebug, $baseUrl . '/jaxon/js', $baseDir . '/jaxon/js');
+        $bIsDebug = $ci->config->item('debug');
+        $sJsUrl = rtrim($ci->config->item('base_url'), '/') . '/jaxon/js';
+        $sJsDir = rtrim(FCPATH, '/') . '/jaxon/js';
 
+        $di = jaxon()->di();
+        $viewManager = $di->getViewmanager();
         // Set the default view namespace
-        $sentry->addViewNamespace('default', '', '', 'codeigniter');
-        $this->appConfig->setOption('options.views.default', 'default');
-
+        $viewManager->addNamespace('default', '', '', 'codeigniter');
         // Add the view renderer
-        $sentry->addViewRenderer('codeigniter', function () {
+        $viewManager->addRenderer('codeigniter', function () {
             return new \Jaxon\CI\View();
         });
 
         // Set the session manager
-        $sentry->setSessionManager(function () {
+        $di->setSessionManager(function () {
             return new Jaxon\CI\Session();
         });
+
+        $this->bootstrap()
+            ->lib($aLibOptions)
+            ->app($aAppOptions)
+            // ->uri($sUri)
+            ->js(!$bIsDebug, $sJsUrl, $sJsDir, !$bIsDebug)
+            ->run();
+
+        // Prevent the Jaxon library from sending the response or exiting
+        $jaxon->setOption('core.response.send', false);
+        $jaxon->setOption('core.process.exit', false);
     }
 
     /**
-     * Set the module specific options for the Jaxon library.
+     * Process an incoming Jaxon request, and return the response.
      *
-     * This method needs to set at least the Jaxon request URI.
-     *
-     * @return void
+     * @return mixed
      */
-    protected function jaxonCheck()
+    public function processRequest()
     {
-        // Todo: check the mandatory options
-    }
+        $jaxon = jaxon();
+        // Process the jaxon request
+        $jaxon->processRequest();
+        // Get the reponse to the request
+        $jaxonResponse = $jaxon->di()->getResponseManager()->getResponse();
 
-    /**
-     * Wrap the Jaxon response into an HTTP response.
-     *
-     * @param  $code        The HTTP Response code
-     *
-     * @return HTTP Response
-     */
-    public function httpResponse($code = '200')
-    {
         // Create and return a CodeIgniter HTTP response
+        $code = '200';
         get_instance()->output
             ->set_status_header($code)
-            ->set_content_type($this->ajaxResponse()->getContentType(), $this->ajaxResponse()->getCharacterEncoding())
-            ->set_output($this->ajaxResponse()->getOutput())
+            ->set_content_type($jaxonResponse->getContentType(), $jaxonResponse->getCharacterEncoding())
+            ->set_output($jaxonResponse->getOutput())
             ->_display();
     }
 }

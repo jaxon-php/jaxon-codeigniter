@@ -2,7 +2,9 @@
 
 namespace Jaxon\CI;
 
-class Session
+use Jaxon\Contracts\Session as SessionContract;
+
+class Session implements SessionContract
 {
     /**
      * The CakePHP session
