@@ -64,11 +64,12 @@ class Jaxon
      */
     public function httpResponse($code = '200')
     {
+        $jaxon = jaxon();
         // Get the reponse to the request
         $jaxonResponse = $jaxon->di()->getResponseManager()->getResponse();
         if(!$jaxonResponse)
         {
-            $jaxonResponse = jaxon()->getResponse();
+            $jaxonResponse = $jaxon->getResponse();
         }
 
         // Create and return a CodeIgniter HTTP response
@@ -86,9 +87,8 @@ class Jaxon
      */
     public function processRequest()
     {
-        $jaxon = jaxon();
         // Process the jaxon request
-        $jaxon->processRequest();
+        jaxon()->processRequest();
 
         // Return the reponse to the request
         return $this->httpResponse();
