@@ -30,7 +30,7 @@ class Jaxon
         $sJsDir = rtrim(FCPATH, '/') . '/jaxon/js';
 
         $di = jaxon()->di();
-        $viewManager = $di->getViewmanager();
+        $viewManager = $di->getViewManager();
         // Set the default view namespace
         $viewManager->addNamespace('default', '', '', 'codeigniter');
         // Add the view renderer
@@ -56,6 +56,30 @@ class Jaxon
     }
 
     /**
+     * Get the HTTP response
+     *
+     * @param string    $code       The HTTP response code
+     *
+     * @return mixed
+     */
+    public function httpResponse($code = '200')
+    {
+        // Get the reponse to the request
+        $jaxonResponse = $jaxon->di()->getResponseManager()->getResponse();
+        if(!$jaxonResponse)
+        {
+            $jaxonResponse = jaxon()->getResponse();
+        }
+
+        // Create and return a CodeIgniter HTTP response
+        get_instance()->output
+            ->set_status_header($code)
+            ->set_content_type($jaxonResponse->getContentType(), $jaxonResponse->getCharacterEncoding())
+            ->set_output($jaxonResponse->getOutput())
+            ->_display();
+    }
+
+    /**
      * Process an incoming Jaxon request, and return the response.
      *
      * @return mixed
@@ -65,15 +89,8 @@ class Jaxon
         $jaxon = jaxon();
         // Process the jaxon request
         $jaxon->processRequest();
-        // Get the reponse to the request
-        $jaxonResponse = $jaxon->di()->getResponseManager()->getResponse();
 
-        // Create and return a CodeIgniter HTTP response
-        $code = '200';
-        get_instance()->output
-            ->set_status_header($code)
-            ->set_content_type($jaxonResponse->getContentType(), $jaxonResponse->getCharacterEncoding())
-            ->set_output($jaxonResponse->getOutput())
-            ->_display();
+        // Return the reponse to the request
+        return $this->httpResponse();
     }
 }
