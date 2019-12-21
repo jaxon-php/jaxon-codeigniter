@@ -1,9 +1,14 @@
 <?php
 if (! defined('BASEPATH')) exit('No direct script access allowed');
 
+use Jaxon\Features\App;
+use Jaxon\CI\View;
+use Jaxon\CI\Session;
+use Jaxon\CI\Logger;
+
 class Jaxon
 {
-    use \Jaxon\Features\App;
+    use App;
 
     public function __construct()
     {
@@ -29,19 +34,23 @@ class Jaxon
         $sJsUrl = rtrim($ci->config->item('base_url'), '/') . '/jaxon/js';
         $sJsDir = rtrim(FCPATH, '/') . '/jaxon/js';
 
-        $di = jaxon()->di();
+        $jaxon = jaxon();
+        $di = $jaxon->di();
         $viewManager = $di->getViewManager();
         // Set the default view namespace
         $viewManager->addNamespace('default', '', '', 'codeigniter');
         // Add the view renderer
-        $viewManager->addRenderer('codeigniter', function () {
-            return new \Jaxon\CI\View();
+        $viewManager->addRenderer('codeigniter', function() {
+            return new View();
         });
 
         // Set the session manager
-        $di->setSessionManager(function () {
-            return new Jaxon\CI\Session();
+        $di->setSessionManager(function() {
+            return new Session();
         });
+
+        // Set the logger
+        $this->setLogger(new Logger());
 
         $this->bootstrap()
             ->lib($aLibOptions)
@@ -76,8 +85,8 @@ class Jaxon
         get_instance()->output
             ->set_status_header($code)
             ->set_content_type($jaxonResponse->getContentType(), $jaxonResponse->getCharacterEncoding())
-            ->set_output($jaxonResponse->getOutput())
-            ->_display();
+            ->set_output($jaxonResponse->getOutput());
+            // ->_display();
     }
 
     /**
@@ -91,6 +100,6 @@ class Jaxon
         jaxon()->processRequest();
 
         // Return the reponse to the request
-        return $this->httpResponse();
+        $this->httpResponse();
     }
 }

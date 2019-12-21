@@ -13,7 +13,8 @@
         "source": "https://github.com/jaxon-php/jaxon-codeigniter"
     },
     "require": {
-        "jaxon-php/jaxon-core": "^3.0"
+        "jaxon-php/jaxon-core": "^3.1",
+        "psr/log": "^1.1"
     },
     "autoload": {
         "psr-4": {
