@@ -2,18 +2,11 @@
 
 namespace Jaxon\CI;
 
-use Jaxon\Sentry\View\Store;
-use Jaxon\Sentry\Interfaces\View as ViewInterface;
+use Jaxon\Utils\View\Store;
+use Jaxon\Contracts\View as ViewContract;
 
-class View implements ViewInterface
+class View implements ViewContract
 {
-    protected $controller;
-
-    public function __construct()
-    {
-        $this->controller = get_instance();
-    }
-
     /**
      * Add a namespace to this view renderer
      *
@@ -36,6 +29,6 @@ class View implements ViewInterface
     public function render(Store $store)
     {
         // Render the template
-        return trim($this->controller->load->view($store->getViewName(), $store->getViewData(), true), " \t\n");
+        return trim(get_instance()->load->view($store->getViewName(), $store->getViewData(), true), " \t\n");
     }
 }
