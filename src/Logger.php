@@ -7,11 +7,11 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 use Psr\Log\InvalidArgumentException;
 
-class Logger extends AbstractLogger implements \Psr\Log\LoggerInterface
+class Logger extends AbstractLogger implements LoggerInterface
 {
     public function log($sLevel, $sMessage, array $aContext = [])
     {
-        $sMessage = rtrim((string)$sMessage, ' .') . '. Context: ' . print_r($aContext, true);
+        $sMessage = rtrim((string)$sMessage, ' .') . '. ' . print_r($aContext, true);
 
         // Map the PSR-3 severity to CodeIgniter log level.
         switch($sLevel)
