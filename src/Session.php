@@ -4,6 +4,10 @@ namespace Jaxon\CI;
 
 use Jaxon\Contracts\Session as SessionContract;
 
+use function array_keys;
+use function session_id;
+use function get_instance;
+
 class Session implements SessionContract
 {
     /**

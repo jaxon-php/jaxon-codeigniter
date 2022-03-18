@@ -5,6 +5,9 @@ namespace Jaxon\CI;
 use Jaxon\Utils\View\Store;
 use Jaxon\Contracts\View as ViewContract;
 
+use function trim;
+use function get_instance;
+
 class View implements ViewContract
 {
     /**

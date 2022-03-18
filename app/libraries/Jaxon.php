@@ -1,17 +1,24 @@
 <?php
 if (! defined('BASEPATH')) exit('No direct script access allowed');
 
-use Jaxon\Features\App;
 use Jaxon\CI\View;
 use Jaxon\CI\Session;
 use Jaxon\CI\Logger;
 
+use function rtrim;
+use function get_instance;
+use function jaxon;
+
 class Jaxon
 {
-    use App;
+    use \Jaxon\App\AppTrait;
 
+    /**
+     * The constructor
+     */
     public function __construct()
     {
+        $this->jaxon = jaxon();
         // Initialize the Jaxon plugin
         $this->setup();
     }
@@ -23,6 +30,19 @@ class Jaxon
      */
     protected function setup()
     {
+        // Set the default view namespace
+        $this->addViewNamespace('default', '', '', 'codeigniter');
+        // Add the view renderer
+        $this->addViewRenderer('codeigniter', function() {
+            return new View();
+        });
+        // Set the session manager
+        $this->setSessionManager(function() {
+            return new Session();
+        });
+        // Set the logger
+        $this->setLogger(new Logger());
+
         // Load Jaxon config settings
         $ci = get_instance();
         $ci->config->load('jaxon', true);
@@ -34,72 +54,27 @@ class Jaxon
         $sJsUrl = rtrim($ci->config->item('base_url'), '/') . '/jaxon/js';
         $sJsDir = rtrim(FCPATH, '/') . '/jaxon/js';
 
-        $jaxon = jaxon();
-        $di = $jaxon->di();
-        $viewManager = $di->getViewManager();
-        // Set the default view namespace
-        $viewManager->addNamespace('default', '', '', 'codeigniter');
-        // Add the view renderer
-        $viewManager->addRenderer('codeigniter', function() {
-            return new View();
-        });
-
-        // Set the session manager
-        $di->setSessionManager(function() {
-            return new Session();
-        });
-
-        // Set the logger
-        $this->setLogger(new Logger());
-
         $this->bootstrap()
             ->lib($aLibOptions)
             ->app($aAppOptions)
             // ->uri($sUri)
             ->js(!$bIsDebug, $sJsUrl, $sJsDir, !$bIsDebug)
-            ->run();
-
-        // Prevent the Jaxon library from sending the response or exiting
-        $jaxon->setOption('core.response.send', false);
-        $jaxon->setOption('core.process.exit', false);
+            ->setup();
     }
 
     /**
-     * Get the HTTP response
-     *
-     * @param string    $code       The HTTP response code
-     *
-     * @return mixed
+     * @inheritDoc
      */
-    public function httpResponse($code = '200')
+    public function httpResponse(string $sCode = '200')
     {
-        $jaxon = jaxon();
         // Get the reponse to the request
-        $jaxonResponse = $jaxon->di()->getResponseManager()->getResponse();
-        if(!$jaxonResponse)
-        {
-            $jaxonResponse = $jaxon->getResponse();
-        }
+        $jaxonResponse = $this->jaxon->getResponse();
 
         // Create and return a CodeIgniter HTTP response
         get_instance()->output
-            ->set_status_header($code)
-            ->set_content_type($jaxonResponse->getContentType(), $jaxonResponse->getCharacterEncoding())
+            ->set_status_header($sCode)
+            ->set_content_type($jaxonResponse->getContentType(), $this->jaxon->getCharacterEncoding())
             ->set_output($jaxonResponse->getOutput());
             // ->_display();
-    }
-
-    /**
-     * Process an incoming Jaxon request, and return the response.
-     *
-     * @return mixed
-     */
-    public function processRequest()
-    {
-        // Process the jaxon request
-        jaxon()->processRequest();
-
-        // Return the reponse to the request
-        $this->httpResponse();
     }
 }
