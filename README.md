@@ -88,7 +88,7 @@ The calls to `$this->jaxon->css()`, `$this->jaxon->js()` and `$this->jaxon->scri
 
 ### The Jaxon classes
 
-The Jaxon classes can inherit from `\Jaxon\CallableClass`.
+The Jaxon classes can inherit from `\Jaxon\App\CallableClass`.
 By default, they are located in the `APPPATH/jaxon/app` dir of the CodeIgniter application, and the associated namespace is `\Jaxon\App`.
 
 This is a simple example of a Jaxon class, defined in the `APPPATH/jaxon/app/HelloWorld.php` file.
@@ -96,7 +96,7 @@ This is a simple example of a Jaxon class, defined in the `APPPATH/jaxon/app/Hel
 ```php
 namespace Jaxon\App;
 
-class HelloWorld extends \Jaxon\CallableClass
+class HelloWorld extends \Jaxon\App\CallableClass
 {
     public function sayHello()
     {

@@ -67,13 +67,13 @@ class Jaxon
     public function httpResponse(string $sCode = '200')
     {
         // Get the reponse to the request
-        $jaxonResponse = $this->jaxon->getResponse();
+        $ajaxResponse = $this->ajaxResponse();
 
         // Create and return a CodeIgniter HTTP response
         get_instance()->output
             ->set_status_header($sCode)
-            ->set_content_type($jaxonResponse->getContentType(), $this->getCharacterEncoding())
-            ->set_output($jaxonResponse->getOutput());
+            ->set_content_type($ajaxResponse->getContentType(), $this->getCharacterEncoding())
+            ->set_output($ajaxResponse->getOutput());
             // ->_display();
     }
 }
