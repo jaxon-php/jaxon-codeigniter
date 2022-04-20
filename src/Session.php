@@ -1,31 +1,30 @@
 <?php
 
-namespace Jaxon\CI;
+namespace Jaxon\CodeIgniter;
 
+use CodeIgniter\Session\SessionInterface as CodeIgniterSession;
 use Jaxon\App\Session\SessionInterface;
 
 use function array_keys;
 use function session_id;
-use function get_instance;
 
 class Session implements SessionInterface
 {
     /**
-     * The CakePHP session
-     *
-     * @var object
+     * @var CodeIgniterSession
      */
-    protected $xSession = null;
+    protected $xSession;
 
-    public function __construct()
+    /**
+     * @param CodeIgniterSession $xSession
+     */
+    public function __construct(CodeIgniterSession $xSession)
     {
-        $this->xSession = get_instance()->session;
+        $this->xSession = $xSession;
     }
 
     /**
-     * Get the current session id
-     *
-     * @return string           The session id
+     * @inheritDoc
      */
     public function getId(): string
     {
@@ -33,84 +32,58 @@ class Session implements SessionInterface
     }
 
     /**
-     * Generate a new session id
-     *
-     * @param bool          $bDeleteData         Whether to delete data from the previous session
-     *
-     * @return void
+     * @inheritDoc
      */
-    public function newId($bDeleteData = false)
+    public function newId(bool $bDeleteData = false)
     {
-        $this->xSession->sess_regenerate($bDeleteData);
+        $this->xSession->regenerate($bDeleteData);
     }
 
     /**
-     * Save data in the session
-     *
-     * @param string        $sKey                The session key
-     * @param string        $xValue              The session value
-     *
-     * @return void
+     * @inheritDoc
      */
-    public function set($sKey, $xValue)
+    public function set(string $sKey, $xValue)
     {
-        $this->xSession->set_userdata([$sKey => $xValue]);
+        $this->xSession->set($sKey, $xValue);
     }
 
     /**
-     * Check if a session key exists
-     *
-     * @param string        $sKey                The session key
-     *
-     * @return bool             True if the session key exists, else false
+     * @inheritDoc
      */
-    public function has($sKey): bool
+    public function has(string $sKey): bool
     {
-        return $this->xSession->has_userdata($sKey);
+        return $this->xSession->has($sKey);
     }
 
     /**
-     * Get data from the session
-     *
-     * @param string        $sKey                The session key
-     * @param string        $xDefault            The default value
-     *
-     * @return mixed|$xDefault             The data under the session key, or the $xDefault parameter
+     * @inheritDoc
      */
-    public function get($sKey, $xDefault = null)
+    public function get(string $sKey, $xDefault = null)
     {
-        return $this->has($sKey) ? $this->xSession->userdata($sKey) : $xDefault;
+        return $this->has($sKey) ? $this->xSession->get($sKey) : $xDefault;
     }
 
     /**
-     * Get all data in the session
-     *
-     * @return array             An array of all data in the session
+     * @inheritDoc
      */
     public function all(): array
     {
-        return $this->xSession->userdata();
+        return $this->xSession->get();
     }
 
     /**
-     * Delete a session key and its data
-     *
-     * @param string        $sKey                The session key
-     *
-     * @return void
+     * @inheritDoc
      */
-    public function delete($sKey)
+    public function delete(string $sKey)
     {
-        $this->xSession->unset_userdata($sKey);
+        $this->xSession->remove($sKey);
     }
 
     /**
-     * Delete all data in the session
-     *
-     * @return void
+     * @inheritDoc
      */
     public function clear()
     {
-        $this->xSession->unset_userdata(array_keys($this->xSession->userdata()));
+        $this->xSession->remove(array_keys($this->xSession->get()));
     }
 }
