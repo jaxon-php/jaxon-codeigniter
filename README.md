@@ -1,39 +1,93 @@
-Jaxon Library for CodeIgniter
-=============================
+Jaxon integration for CodeIgniter 4
+===================================
 
-This package integrates the [Jaxon library](https://github.com/jaxon-php/jaxon-core) into the CodeIgniter 3 framework.
-
-Features
---------
-
-- Read Jaxon options from a file in CodeIgniter config format.
-- Automatically register Jaxon classes from a preset directory.
+This package integrates the [Jaxon library](https://github.com/jaxon-php/jaxon-core) into the CodeIgniter 4 framework.
 
 Installation
 ------------
 
-First install CodeIgniter version 3.
+The version 4 of the package requires CodeIgniter version 4.
 
-Create the `composer.json` file into the installation dir with the following content.
+Install the package with `Composer`.
 
+```bash
+composer require jaxon-php/jaxon-codeigniter ^4.0
+```
+Or
 ```json
 {
     "require": {
-        "jaxon-php/jaxon-codeigniter": "~3.0",
+        "jaxon-php/jaxon-codeigniter": "^4.0",
+    }
+}
+```
+And run `composer install`.
+
+Filter
+------
+
+This package provides a filter that must be attached to the routes to all the pages where the Jaxon features are enabled.
+
+In the `app/Config/Routes.php` file, a route must be defined for Jaxon requests.
+
+```php
+// Add the Jaxon filter to Jaxon-enabled routes.
+$routes->get('/', 'Demo::index', ['filter' => JaxonConfigFilter::class]);
+
+// Jaxon request processing route.
+$routes->post('/jaxon', 'Demo::jaxon', ['filter' => JaxonConfigFilter::class]);
+```
+
+This is an example of a CodeIgniter controller using the Jaxon library.
+
+```php
+namespace App\Controllers;
+
+use Jaxon\Demo\Ajax\Bts;
+use Jaxon\Demo\Ajax\Pgw;
+
+use function view;
+
+class Demo extends BaseController
+{
+    public function index()
+    {
+        $jaxon = jaxon()->app();
+
+        // Print the page
+        return view('demo/index', [
+            'jaxonCss' => $jaxon->css(),
+            'jaxonJs' => $jaxon->js(),
+            'jaxonScript' => $jaxon->script(),
+            'pageTitle' => "CodeIgniter Framework",
+            // Jaxon request to the Bts Jaxon class
+            'bts' => $jaxon->request(Bts::class),
+            // Jaxon request to the Pgw Jaxon class
+            'pgw' => $jaxon->request(Pgw::class),
+        ]);
+    }
+
+    public function jaxon()
+    {
+        $jaxon = jaxon()->app();
+        if(!$jaxon->canProcessRequest())
+        {
+            // Jaxon failed to find a plugin to process the request
+            return; // Todo: return an error message
+        }
+
+        $jaxon->processRequest();
+        return $jaxon->httpResponse();
     }
 }
 ```
 
-Copy the content of the `app/` directory of this repo to the `application/` dir of the CodeIgniter application.
-This will install the Jaxon library for CodeIgniter, as well as the controller to process Jaxon requests and a default config file.
-
-The version 3 of the CodeIgniter framework does not natively support Composer.
-The Composer `vendor/autoload.php` file must therefore be manually included in the application.
-
 Configuration
 ------------
 
-The settings in the jaxon.php config file are separated into two sections.
+Copy the `config/Jaxon.php` file in this package to the `app/Config` dir of the CodeIgniter app.
+
+The settings in the `config/Jaxon.php` config file are separated into two sections.
 The options in the `lib` section are those of the Jaxon core library, while the options in the `app` sections are those of the CodeIgniter application.
 
 The following options can be defined in the `app` section of the config file.
@@ -49,8 +103,8 @@ There's a single entry in the `directories` array with the following values.
 
 | Name | Default value | Description |
 |------|---------------|-------------|
-| directory | APPPATH . 'jaxon/classes' | The directory of the Jaxon classes |
-| namespace | \Jaxon\App  | The namespace of the Jaxon classes |
+| directory | 'jaxon/ajax' | The directory of the Jaxon classes |
+| namespace | \Jaxon\Ajax  | The namespace of the Jaxon classes |
 | separator | .           | The separator in Jaxon class names |
 | protected | empty array | Prevent Jaxon from exporting some methods |
 | | | |
@@ -58,43 +112,15 @@ There's a single entry in the `directories` array with the following values.
 Usage
 -----
 
-This is an example of a CodeIgniter controller using the Jaxon library.
-```php
-
-class Demo extends CI_Controller
-{
-    public function __construct()
-    {
-        parent::__construct();
-        // Load the Jaxon library
-        $this->load->library('jaxon');
-    }
-
-    public function index()
-    {
-        // Print the page
-        $this->load->view('index', array(
-            'JaxonCss' => $this->jaxon->css(),
-            'JaxonJs' => $this->jaxon->js(),
-            'JaxonScript' => $this->jaxon->script()
-        ));
-    }
-}
-```
-
-The controller must inherit from the `Jaxon_Controller` provided in this package, and call its contructor.
-
-The calls to `$this->jaxon->css()`, `$this->jaxon->js()` and `$this->jaxon->script()` return the CSS and javascript codes generated by Jaxon, which are inserted into the page.
-
 ### The Jaxon classes
 
 The Jaxon classes can inherit from `\Jaxon\App\CallableClass`.
-By default, they are located in the `APPPATH/jaxon/app` dir of the CodeIgniter application, and the associated namespace is `\Jaxon\App`.
+By default, they are located in the `jaxon/app` dir of the CodeIgniter application, and the associated namespace is `\Jaxon\Ajax`.
 
-This is a simple example of a Jaxon class, defined in the `APPPATH/jaxon/app/HelloWorld.php` file.
+This is a simple example of a Jaxon class, defined in the `jaxon/ajax/HelloWorld.php` file.
 
 ```php
-namespace Jaxon\App;
+namespace Jaxon\Ajax;
 
 class HelloWorld extends \Jaxon\App\CallableClass
 {
@@ -105,11 +131,6 @@ class HelloWorld extends \Jaxon\App\CallableClass
     }
 }
 ```
-
-### Request processing
-
-By default, the Jaxon request are handled by the controller in the `app/controllers/jaxon/Process.php` file.
-The `jaxon/process` route linked by default to the `Process::index()` method.
 
 Contribute
 ----------
