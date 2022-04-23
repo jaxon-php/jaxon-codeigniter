@@ -8,8 +8,9 @@ class Jaxon extends BaseConfig
 {
     public $app = [
         'directories' => [
-            rtrim(APPPATH, '/') . '/jaxon/ajax' => [
+            APPPATH . '../jaxon/ajax' => [
                 'namespace' => '\\Jaxon\\Ajax',
+                'register' => false,
                 // 'separator' => '', // '.' or '_'
                 // 'protected.' => [],
             ],

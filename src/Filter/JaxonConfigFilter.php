@@ -5,6 +5,7 @@ namespace Jaxon\CodeIgniter\Filter;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Filters\FilterInterface;
+use Jaxon\App\AppInterface;
 use Jaxon\CodeIgniter\Jaxon;
 
 class JaxonConfigFilter implements FilterInterface

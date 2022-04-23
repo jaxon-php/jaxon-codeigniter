@@ -43,12 +43,12 @@ class Jaxon implements AppInterface
         $this->setLogger(Services::logger(true));
 
         // Load Jaxon config settings
-        $aJaxonConfig = config('Jaxon');
+        $aJaxonConfig = config(\Config\Jaxon::class);
         $aLibOptions = $aJaxonConfig->lib ?? [];
         $aAppOptions = $aJaxonConfig->app ?? [];
 
         // Jaxon library default settings
-        $bExport = $bMinify = (CI_ENVIRONMENT === 'production');
+        $bExport = $bMinify = !CI_DEBUG;
         $sJsUrl = rtrim(config('App')->baseURL, '/') . '/jaxon/js';
         $sJsDir = rtrim(FCPATH, '/') . '/jaxon/js';
 
