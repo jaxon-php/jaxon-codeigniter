@@ -11,7 +11,7 @@ use Jaxon\Exception\SetupException;
 use function config;
 use function rtrim;
 use function intval;
-use function jaxon;
+use function Jaxon\jaxon;
 
 class Jaxon implements AppInterface
 {
