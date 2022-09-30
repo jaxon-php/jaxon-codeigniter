@@ -6,7 +6,9 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Filters\FilterInterface;
 use Jaxon\App\AppInterface;
-use Jaxon\CodeIgniter\Jaxon;
+use Jaxon\CodeIgniter\Jaxon as JaxonApp
+
+use function Jaxon\jaxon;
 
 class JaxonConfigFilter implements FilterInterface
 {
@@ -19,7 +21,7 @@ class JaxonConfigFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         jaxon()->di()->set(AppInterface::class, function() {
-            return new Jaxon();
+            return new JaxonApp();
         });
 
         // Load the config
