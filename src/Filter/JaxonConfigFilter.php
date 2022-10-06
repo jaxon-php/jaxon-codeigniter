@@ -6,7 +6,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Filters\FilterInterface;
 use Jaxon\App\AppInterface;
-use Jaxon\CodeIgniter\Jaxon as JaxonApp
+use Jaxon\CodeIgniter\Jaxon as JaxonApp;
 
 use function Jaxon\jaxon;
 
