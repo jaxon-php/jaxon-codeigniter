@@ -4,27 +4,15 @@ namespace Jaxon\CodeIgniter;
 
 use CodeIgniter\Config\Services;
 use CodeIgniter\HTTP\Response;
-use Jaxon\App\AppInterface;
-use Jaxon\App\Traits\AppTrait;
+use Jaxon\App\AbstractApp;
 use Jaxon\Exception\SetupException;
 
 use function config;
 use function rtrim;
 use function intval;
-use function Jaxon\jaxon;
 
-class Jaxon implements AppInterface
+class Jaxon extends AbstractApp
 {
-    use AppTrait;
-
-    /**
-     * The class constructor
-     */
-    public function __construct()
-    {
-        $this->initApp(jaxon()->di());
-    }
-
     /**
      * @inheritDoc
      * @throws SetupException
