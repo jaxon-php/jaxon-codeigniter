@@ -29,7 +29,7 @@ class Jaxon implements AppInterface
      * @inheritDoc
      * @throws SetupException
      */
-    public function setup(string $sConfigFile)
+    public function setup(string $_ = '')
     {
         // Add the view renderer
         $this->addViewRenderer('codeigniter', '', function() {
