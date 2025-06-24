@@ -76,8 +76,7 @@ class Demo extends BaseController
             return; // Todo: return an error message
         }
 
-        $jaxon->processRequest();
-        return $jaxon->httpResponse();
+        return $jaxon->processRequest();
     }
 }
 ```
@@ -127,7 +126,6 @@ class HelloWorld extends \Jaxon\App\CallableClass
     public function sayHello()
     {
         $this->response->assign('div2', 'innerHTML', 'Hello World!');
-        return $this->response;
     }
 }
 ```

@@ -13,7 +13,7 @@
         "source": "https://github.com/jaxon-php/jaxon-codeigniter"
     },
     "require": {
-        "jaxon-php/jaxon-core": "^4.0",
+        "jaxon-php/jaxon-core": "^5.0",
         "codeigniter4/framework": "4.*"
     },
     "autoload": {
